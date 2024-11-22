@@ -10,67 +10,52 @@ namespace OopExample
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Seleccione el tipo de tarjeta: ");
-            Console.WriteLine("1. Tarjeta de Crédito");
-            Console.WriteLine("2. Tarjeta de Débito");
-            int opcion = int.Parse(Console.ReadLine());
+            Carro miCarro = new Carro();
+            Moto miMoto = new Moto();
 
-            // Ingresa la información
-            Console.WriteLine("\nIngrese el número de tarjeta:");
-            string numeroDeTarjeta = Console.ReadLine();
-
-            Console.WriteLine("\nIngrese el nombre en la tarjeta:");
-            string nombreEnLaTarjeta = Console.ReadLine();
-
-            DateTime fechaExpedicion = FechaTarjeta.FechaExpedicionTarjeta();
-            DateTime fechaVencimiento = FechaTarjeta.FechaVencimientoTarjeta(fechaExpedicion);
-
-            Tarjeta tarjeta;
-
-            if (opcion == 1)
-            {
-                tarjeta = new TarjetaCredito(numeroDeTarjeta, nombreEnLaTarjeta, fechaExpedicion, fechaVencimiento);
-            }
-            else if (opcion == 2)
-            {
-                tarjeta = new TarjetaDebito(numeroDeTarjeta, nombreEnLaTarjeta, fechaExpedicion, fechaVencimiento);
-            }
-            else
-            {
-                Console.WriteLine("Opción no válida.");
-                return;
-            }
-
-            // Display card details
-            Console.WriteLine($"\nTipo de Tarjeta: {(tarjeta is TarjetaCredito ? "Crédito" : "Débito")}");
-            Console.WriteLine($"Número de Tarjeta: {tarjeta.NumeroDeTarjeta}");
-            Console.WriteLine($"Nombre en la Tarjeta: {tarjeta.NombreEnLaTarjeta}");
-            Console.WriteLine($"Fecha de Expedición: {tarjeta.FechaDeExpedicion.ToShortDateString()}");
-            Console.WriteLine($"Fecha de Vencimiento: {tarjeta.FechaDeVencimiento.ToShortDateString()}");
+            miCarro.Bocina();
+            miMoto.Bocina();
 
             Console.ReadLine();
         }
     }
 
-    class TarjetaCredito:Tarjeta
+    // Ejemplo de Abstracción
+    interface IVehiculo
     {
-        public TarjetaCredito(string numeroDeTarjeta, string nombreEnLaTarjeta, DateTime fechaExpedicion, DateTime fechaVencimiento)
+        void Bocina();
+    }
+
+    // Ejemplo de Herencia y Polimorfismo
+    class Carro : Vehiculo, IVehiculo
+    {
+        public Carro()
         {
-            NumeroDeTarjeta = numeroDeTarjeta;
-            NombreEnLaTarjeta = nombreEnLaTarjeta;
-            FechaDeExpedicion = fechaExpedicion;
-            FechaDeVencimiento = fechaVencimiento;
+            NumeroDeAsientos = 4;
+            TieneChasis = true;
+            NumeroDeRuedas = 4;
+            TamanoDeMotor = "mediano";
+        }
+
+        public void Bocina()
+        {
+            Console.WriteLine("Piit, piit!");
         }
     }
 
-    class TarjetaDebito:Tarjeta
+    class Moto : Vehiculo, IVehiculo
     {
-        public TarjetaDebito(string numeroDeTarjeta, string nombreEnLaTarjeta, DateTime fechaExpedicion, DateTime fechaVencimiento)
+        public Moto()
         {
-            NumeroDeTarjeta = numeroDeTarjeta;
-            NombreEnLaTarjeta = nombreEnLaTarjeta;
-            FechaDeExpedicion = fechaExpedicion;
-            FechaDeVencimiento = fechaVencimiento;
+            NumeroDeAsientos = 1;
+            TieneChasis = false;
+            NumeroDeRuedas = 2;
+            TamanoDeMotor = "pequeño";
+        }
+
+        public void Bocina()
+        {
+            Console.WriteLine("Tuut, tuut!");
         }
     }
 }
